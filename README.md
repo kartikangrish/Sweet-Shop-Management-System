@@ -28,18 +28,13 @@ A terminal or command prompt
 Backend Setup
 Clone the repository:
 
-git clone [https://github.com/YOUR_USERNAME/sweet-shop-kata.git](https://github.com/YOUR_USERNAME/sweet-shop-kata.git)
+git clone https://github.com/kartikangrish/Sweet-Shop-Management-System
 cd sweet-shop-kata/backend
 
 Install dependencies:
 
 npm install
 
-Set up environment variables:
-Create a .env file in the backend directory and add the following, replacing the placeholder values with your PostgreSQL credentials:
-
-DATABASE_URL="postgresql://USERNAME:PASSWORD@localhost:5432/sweetshop?schema=public"
-JWT_SECRET="your_jwt_secret_key_here"
 
 Run database migrations:
 This command will set up the necessary tables in your database.
