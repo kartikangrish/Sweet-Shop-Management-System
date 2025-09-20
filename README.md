@@ -3,7 +3,7 @@ This is a full-stack application built to fulfill the requirements of the TDD Ka
 
 The project demonstrates a complete development lifecycle, including Test-Driven Development (TDD), clean coding practices, and thoughtful integration of AI as a development partner.
 
-Public Repository Link: https://github.com/YOUR_USERNAME/sweet-shop-kata (Please replace with your actual repository link)
+Public Repository Link: (https://github.com/kartikangrish/Sweet-Shop-Management-System)
 
 Application Screenshots
 Here are the screenshots of the final application in action, showcasing the main user interfaces.
