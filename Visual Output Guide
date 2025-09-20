@@ -1,0 +1,34 @@
+Visual Output Guide
+This document shows what the frontend application of the Sweet Shop Management System looks like when running in the browser.
+
+1. Login Page
+When a user first visits the application, they are presented with a clean, centered login form. The design is simple and inviting, using a pink color scheme to match the "sweet shop" theme.
+
+Key Elements:
+
+A prominent title: "Welcome Back!"
+
+Input fields for "Email" and "Password".
+
+A clear call-to-action button: "Login".
+
+Error messages appear below the title if login fails.
+
+2. Sweet Shop Dashboard
+After successfully logging in, the user is directed to the main dashboard. This page displays all the available sweets in a responsive grid layout. The header contains the shop's name and a "Logout" button.
+
+Key Elements of Each Sweet Card:
+
+Name: The name of the sweet is displayed in a bold, eye-catching color (e.g., "Chocolate Fudge").
+
+Category: The sweet's category is shown below the name (e.g., "Fudge").
+
+Price: Clearly formatted price (e.g., "$5.99").
+
+Stock Quantity: Shows the current number of items in stock.
+
+Purchase Button:
+
+If the sweet is in stock, a vibrant pink "Purchase" button is enabled.
+
+If the quantity is zero, the button is disabled, grayed out, and displays "Out of Stock" to provide clear feedback to the user.

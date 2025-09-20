@@ -1,0 +1,79 @@
+Sweet Shop Management System
+This is a full-stack application built as a TDD Kata. It includes a RESTful backend API built with Node.js/Express/Prisma and a single-page frontend application built with React and Tailwind CSS.
+
+Features
+User Authentication: Secure user registration and login using JWT.
+
+Sweet Management: Admins can add, update, and delete sweets.
+
+Inventory Control: Users can purchase sweets, and admins can restock them.
+
+Search & Filter: API endpoints to find sweets by name, category, or price.
+
+TDD Approach: Backend logic is developed following a Red-Green-Refactor pattern.
+
+Setup & Installation
+Prerequisites
+Node.js (v18+)
+
+PostgreSQL (or Docker to run a PostgreSQL container)
+
+Git
+
+Backend Setup
+Navigate to the backend directory:
+
+cd backend
+
+Install dependencies:
+
+npm install
+
+Set up environment variables:
+Create a .env file in the backend directory and add the following. Replace the placeholders with your actual database credentials.
+
+# Example for a local PostgreSQL instance
+DATABASE_URL="postgresql://YOUR_USER:YOUR_PASSWORD@localhost:5432/sweetshop?schema=public"
+
+# A long, random string for signing tokens
+JWT_SECRET="your_super_secret_and_long_jwt_key"
+
+Run database migrations:
+This command will create the sweetshop database and the necessary tables.
+
+npx prisma migrate dev --name init
+
+Run the server:
+
+npm run dev
+
+The backend will be running on http://localhost:5001.
+
+Frontend Setup
+Open the file:
+Navigate to the frontend directory in your file explorer.
+
+Run in a browser:
+Simply open the index.html file in your web browser (like Chrome or Firefox). The application is self-contained and requires no build step.
+
+My AI Usage
+In this project, I leveraged AI as a pair programmer and productivity tool to accelerate development while focusing on high-level logic and architecture.
+
+AI Tools Used:
+
+GitHub Copilot: For inline code suggestions, autocompletion, and generating boilerplate.
+
+Gemini: For brainstorming, debugging, and explaining complex concepts.
+
+How I Used Them:
+
+Boilerplate Generation: I used GitHub Copilot to generate the initial tsconfig.json, jest.config.js, and the basic Express server setup in app.ts. This saved significant time on configuration. Commit example: feat: Initial project setup Co-authored-by: GitHub Copilot <ai@github.com>
+
+Test Case Ideation: I asked Gemini to "list all edge cases for a REST API endpoint that creates a 'sweet' product," which helped me write more comprehensive tests in my TDD workflow (e.g., negative prices, empty strings, invalid roles).
+
+Complex Logic: For the search functionality, I described the requirements to Gemini ("Create a Prisma query that conditionally adds where clauses for name, category, and a price range"). It provided an efficient and clean solution, which I then adapted.
+
+Debugging: I encountered an issue where my JWT was not being decoded correctly on the frontend. I provided the relevant frontend and backend code to Gemini, which helped me spot an inconsistency in how the exp (expiration) claim was being handled. Commit example: fix: Correct JWT expiration check on client Co-authored-by: Gemini <ai@google.com>
+
+Reflection on AI's Impact:
+Using AI dramatically improved my workflow. It allowed me to offload tedious, repetitive tasks, freeing me up to focus on the core architectural decisions, the TDD cycle, and the user experience. It acted as a knowledgeable assistant, providing instant feedback and suggestions, which was particularly helpful for debugging and exploring best practices with Prisma and Zod. I made sure to review, test, and understand every line of AI-generated code to ensure it met the project's requirements and quality standards.

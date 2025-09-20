@@ -1,0 +1,102 @@
+import { Response } from 'express';
+import { z } from 'zod';
+import { AuthRequest } from '../middleware/auth.middleware';
+import { prisma } from '../lib/prisma-client';
+
+const sweetSchema = z.object({
+  name: z.string().min(2),
+  category: z.string().min(2),
+  price: z.number().positive(),
+  quantity: z.number().int().min(0),
+});
+
+export const addSweet = async (req: AuthRequest, res: Response) => {
+  try {
+    const validatedData = sweetSchema.parse(req.body);
+    const sweet = await prisma.sweet.create({
+      data: validatedData,
+    });
+    res.status(201).json(sweet);
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return res.status(400).json({ message: 'Invalid data', errors: error.errors });
+    }
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+export const getAllSweets = async (req: AuthRequest, res: Response) => {
+    const sweets = await prisma.sweet.findMany();
+    res.json(sweets);
+};
+
+export const searchSweets = async (req: AuthRequest, res: Response) => {
+    const { name, category, minPrice, maxPrice } = req.query;
+    const where: any = {};
+
+    if (name) where.name = { contains: name as string, mode: 'insensitive' };
+    if (category) where.category = { equals: category as string, mode: 'insensitive' };
+    if (minPrice) where.price = { ...where.price, gte: parseFloat(minPrice as string) };
+    if (maxPrice) where.price = { ...where.price, lte: parseFloat(maxPrice as string) };
+
+    const sweets = await prisma.sweet.findMany({ where });
+    res.json(sweets);
+};
+
+export const updateSweet = async (req: AuthRequest, res: Response) => {
+    try {
+        const { id } = req.params;
+        const validatedData = sweetSchema.parse(req.body);
+        const sweet = await prisma.sweet.update({
+            where: { id },
+            data: validatedData,
+        });
+        res.json(sweet);
+    } catch (error) {
+        res.status(400).json({ message: 'Invalid data or sweet not found' });
+    }
+};
+
+export const deleteSweet = async (req: AuthRequest, res: Response) => {
+    try {
+        const { id } = req.params;
+        await prisma.sweet.delete({ where: { id } });
+        res.status(204).send();
+    } catch (error) {
+        res.status(404).json({ message: 'Sweet not found' });
+    }
+};
+
+export const purchaseSweet = async (req: AuthRequest, res: Response) => {
+    try {
+        const { id } = req.params;
+        const sweet = await prisma.sweet.findUnique({ where: { id } });
+
+        if (!sweet || sweet.quantity < 1) {
+            return res.status(400).json({ message: 'Sweet is out of stock' });
+        }
+
+        const updatedSweet = await prisma.sweet.update({
+            where: { id },
+            data: { quantity: { decrement: 1 } },
+        });
+        res.json(updatedSweet);
+    } catch (error) {
+        res.status(404).json({ message: 'Sweet not found' });
+    }
+};
+
+export const restockSweet = async (req: AuthRequest, res: Response) => {
+    try {
+        const { id } = req.params;
+        const { amount } = z.object({ amount: z.number().int().positive() }).parse(req.body);
+
+        const updatedSweet = await prisma.sweet.update({
+            where: { id },
+            data: { quantity: { increment: amount } },
+        });
+        res.json(updatedSweet);
+    } catch (error) {
+        res.status(400).json({ message: 'Invalid data or sweet not found' });
+    }
+};

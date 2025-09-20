@@ -1,0 +1,27 @@
+import { Router } from 'express';
+import {
+  addSweet,
+  deleteSweet,
+  getAllSweets,
+  purchaseSweet,
+  restockSweet,
+  searchSweets,
+  updateSweet,
+} from '../controllers/sweets.controller';
+import { protect, admin } from '../middleware/auth.middleware';
+
+const router = Router();
+
+router.route('/').get(protect, getAllSweets).post(protect, admin, addSweet);
+
+router.get('/search', protect, searchSweets);
+
+router
+  .route('/:id')
+  .put(protect, admin, updateSweet)
+  .delete(protect, admin, deleteSweet);
+
+router.post('/:id/purchase', protect, purchaseSweet);
+router.post('/:id/restock', protect, admin, restockSweet);
+
+export default router;
